@@ -39,6 +39,7 @@ export default class App {
     
     _addGui(){
         this.gui = new dat.GUI();
+        this.playAndStopGui = this.gui.add(this, '_playAndStop').name('pause');
     }
     
     createMesh(){
@@ -53,6 +54,7 @@ export default class App {
     }
 
     animateIn(){
+        this.isLoop = true;
         TweenMax.ticker.addEventListener('tick', this.loop, this);
     }
 
@@ -79,17 +81,22 @@ export default class App {
     onKeyDown(ev){
         switch(ev.which){
             case 27:
-                this.isLoop = !this.isLoop;
-                if(this.isLoop){
-                    this.clock.stop();
-                    TweenMax.ticker.addEventListener('tick', this.loop, this);
-                }else{
-                    this.clock.start();
-                    TweenMax.ticker.removeEventListener('tick', this.loop, this);
-                }
+                this._playAndStop();
                 break;
         }
     }
+
+    _playAndStop(){
+        this.isLoop = !this.isLoop;
+        if(this.isLoop){
+            TweenMax.ticker.addEventListener('tick', this.loop, this);
+            this.playAndStopGui.name('pause');
+        }else{
+            TweenMax.ticker.removeEventListener('tick', this.loop, this);
+            this.playAndStopGui.name('play');
+        }
+    }
+
 
     resize(){
         this.camera.aspect = window.innerWidth / window.innerHeight;
