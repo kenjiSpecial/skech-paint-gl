@@ -1,9 +1,7 @@
 'use strict';
 
 const THREE = require('three');
-import  {PerspectiveCamera, Scene, WebGLRenderer, BoxGeometry, Clock, ShaderMaterial, MeshBasicMaterial, Mesh} from 'three';
 const OrbitControls = require('three-orbit-controls')(THREE);
-
 const dat = require('dat.gui/build/dat.gui.js');
 const TweenMax = require('gsap');
 const glslify = require('glslify');
@@ -12,15 +10,15 @@ const Stats = require('stats.js');
 export default class App {
     constructor(params){
         this.params = params || {};
-        this.camera = new PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
+        this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
         this.camera.position.z = 1000;
 
-        this.scene = new Scene();
+        this.scene = new THREE.Scene();
 
         this.mesh = this.createMesh();
         this.scene.add(this.mesh);
 
-        this.renderer = new WebGLRenderer({
+        this.renderer = new THREE.WebGLRenderer({
             antialias: true
         });
         this.dom = this.renderer.domElement;
@@ -31,7 +29,7 @@ export default class App {
             this._addGui();
         }
 
-        this.clock = new Clock();
+        this.clock = new THREE.Clock();
         this.control = new OrbitControls(this.camera);
 
         this.resize();
@@ -43,13 +41,13 @@ export default class App {
     }
     
     createMesh(){
-        let geometry = new BoxGeometry(200, 200, 200);
-        let shaderMaterial = new ShaderMaterial({
+        let geometry = new THREE.BoxGeometry(200, 200, 200);
+        let shaderMaterial = new THREE.ShaderMaterial({
             vertexShader: glslify('../shaders/shader.vert'),
             fragmentShader: glslify('../shaders/shader.frag')
         });
-        // let mat = new MeshBasicMaterial({ color : 0xff0000})
-        let mesh = new Mesh(geometry, shaderMaterial);
+        // let mat = new THREE.MeshBasicMaterial({ color : 0xff0000})
+        let mesh = new THREE.Mesh(geometry, shaderMaterial);
         return mesh;
     }
 
