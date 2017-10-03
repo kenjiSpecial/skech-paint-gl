@@ -75,7 +75,7 @@ function clickHandler(ev){
     if(activeNum === curActiveNum) return;
     curActiveNum = activeNum;
 
-    for(var ii = 0; ii < 3; ii++){
+    for(var ii = 0; ii < urls.length; ii++){
         if(ii == activeNum) {
             lists[ii].style.opacity = 1;
             lists[ii].style.cursor = 'default';
