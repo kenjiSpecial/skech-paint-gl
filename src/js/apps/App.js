@@ -572,8 +572,14 @@ export default class App {
 
 
     resize(){
-        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.left = -window.innerWidth/2;
+        this.camera.right = window.innerWidth/2;
+        this.camera.top = window.innerHeight/2;
+        this.camera.bottom = -window.innerHeight/2;
         this.camera.updateProjectionMatrix();
+
+        this._meshSize =  Math.min(this._imgWid, Math.min(window.innerWidth, window.innerHeight) * 0.9 );
+        this._mainMesh.scale.set(this._meshSize, this._meshSize, 1);
 
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
